@@ -1,13 +1,13 @@
 import json
+import os
 from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
 from db import db, User, Preferences
 
 app = Flask(__name__)
-db_filename = 'housemate_hunter.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % db_filename
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
