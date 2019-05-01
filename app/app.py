@@ -16,11 +16,16 @@ with app.app_context():
     db.create_all()
 
 
+@app.route('/')
+def root():
+    return "Hello world!"
+
+
 @app.route('/api/users/', methods=['GET'])
 def get_users():
     users = User.query.all()
-    data = [user.serialize() for user in users]
-    return json.dumps({"success": True, "data": data}), 200
+    # data = [user.serialize() for user in users]
+    return json.dumps({"success": True, "data": []}), 200
 
 
 @app.route('/api/users/', methods=['POST'])
