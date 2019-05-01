@@ -2,14 +2,10 @@ from .db import db, User
 from collections import defaultdict
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO
 from enum import Enum
 import os
 import json
-from gevent import monkey
-monkey.patch_all()
 
-socketio = SocketIO()
 app = Flask(__name__)
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

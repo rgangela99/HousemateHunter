@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-# from .app_enums import Gender, SleepTime
 from .app_enums import Gender
 
 db = SQLAlchemy()
