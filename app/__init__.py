@@ -1,4 +1,4 @@
-from db import db, User, Preferences
+from .db import db, User
 from collections import defaultdict
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
