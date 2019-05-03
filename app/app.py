@@ -67,3 +67,6 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return json.dumps({"success": True, "data": user.serialize()}), 200
+
+
+# @app.route('/api/user/<')
