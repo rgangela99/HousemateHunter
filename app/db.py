@@ -13,7 +13,7 @@ class User(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
     cleanliness = db.Column(db.Integer, nullable=False)
-    location = db.Column()
+    # location = db.Column()
     bio = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
     phone = db.Column(db.String)
