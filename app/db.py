@@ -21,7 +21,7 @@ class User(db.Model):
     bio = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
     phone = db.Column(db.String)
-    location = db.relationship()
+    location = db.relationship('Location')
 
     def __init__(self, **kwargs):
         self.uuid = kwargs.get('uuid')
@@ -57,6 +57,7 @@ class Location(db.Model):
     city = db.Column(db.String, nullable=False)
     state = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
+    users = db.relationship("User", back_populates="location")
 
 
 class Match(db.Model):
