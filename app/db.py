@@ -63,3 +63,4 @@ class Location(db.Model):
 
 class Match(db.Model):
     __tablename__ = 'match'
+    id = db.Column(db.Integer, primary_key=True)
