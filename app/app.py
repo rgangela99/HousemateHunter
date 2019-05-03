@@ -24,8 +24,8 @@ def root():
 @app.route('/api/users/', methods=['GET'])
 def get_users():
     users = User.query.all()
-    # data = [user.serialize() for user in users]
-    return json.dumps({"success": True, "data": []}), 200
+    data = [user.serialize() for user in users]
+    return json.dumps({"success": True, "data": data}), 200
 
 
 @app.route('/api/users/', methods=['POST'])
@@ -33,13 +33,16 @@ def post_user():
     body = json.loads(request.data.decode('utf-8'))
     user = User(
         uuid=body.get('uuid'),
-        first_name=body.get('first_name'),
-        last_name=body.get('last_name'),
+        netid=body.get('netid'),
+        first_name=body.get('name'),
         grad_year=body.get('grad_year'),
         age=body.get('age'),
         gender=body.get('gender'),
+        sleep_time=body.get('sleep_time'),
         cleanliness=body.get('cleanliness'),
-        bio=body.get('bio')
+        bio=body.get('bio'),
+        email=body.get('email'),
+        phone=body.get('phone')
     )
     db.session.add(user)
     db.session.commit()
@@ -49,7 +52,7 @@ def post_user():
 
 @app.route('/api/user/<int:user_id>/', methods=['GET'])
 def get_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(uuid=user_id).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     data = user.serialize()
