@@ -11,7 +11,7 @@ class User(db.Model):
     netid = db.Column(db.String, nullable=False)
     grad_year = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.Enum(Gender), nullable=False)
+    gender = db.Column(db.Boolean, nullable=False)
     cleanliness = db.Column(db.Integer, nullable=False)
     # location = db.Column()
     bio = db.Column(db.String, nullable=False)

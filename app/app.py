@@ -3,7 +3,7 @@ import os
 from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
-from db import db, User, Preferences
+from db import db, User
 
 app = Flask(__name__)
 
