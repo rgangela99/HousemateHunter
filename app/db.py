@@ -36,7 +36,7 @@ class User(db.Model):
         self.location_id = kwargs.get('location')
 
     def serialize(self):
-        location = Location.query.filter_by(id=self.location_id)
+        location = Location.query.filter_by(id=self.location_id).first()
         return {
             "uuid": self.uuid,
             "name": self.name,
