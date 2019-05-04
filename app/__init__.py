@@ -3,7 +3,7 @@ import os
 from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
-from db import db, User, Location
+from .db import db, User, Location
 import geocoder
 
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
