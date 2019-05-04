@@ -55,7 +55,7 @@ class User(db.Model):
 
 class Location(db.Model):
     __tablename__ = 'location'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     city = db.Column(db.String, nullable=False)
     state = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
