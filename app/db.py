@@ -1,9 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from .app_enums import Gender
-import geocoder
-import os
 
-os.environ['GOOGLE_API_KEY'] = "AIzaSyAQE2g8Vgb9YcEI6JZ_Bxnaeo59X0w3FqU"
 
 db = SQLAlchemy()
 
@@ -36,10 +33,12 @@ class User(db.Model):
         self.bio = kwargs.get('bio')
         self.email = kwargs.get('email')
         self.phone = kwargs.get('phone')
+        self.location_id = kwargs.get('location')
 
     def serialize(self):
+        location = Location.query.filter_by(id=self.location_id)
         return {
-            "id": self.id,
+            "uuid": self.uuid,
             "name": self.name,
             "netid": self.netid,
             "grad_year": self.grad_year,
@@ -49,7 +48,8 @@ class User(db.Model):
             "cleanliness": self.cleanliness,
             "bio": self.bio,
             "email": self.email,
-            "phone": self.phone
+            "phone": self.phone,
+            "location": location.serialize()
         }
 
 

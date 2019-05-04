@@ -3,7 +3,10 @@ import os
 from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
-from db import db, User
+from db import db, User, Location
+import geocoder
+
+GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 app = Flask(__name__)
 
@@ -31,6 +34,23 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
+    city = body.get('city')
+    state = body.get('state')
+    address = body.get('address')
+    g = geocoder.google(
+        "{}, {}, {}".format(address, city, state))
+    if not g.ok:
+        return json.dumps({"success": False, "error": "Invalid location"}), 400
+    latitude, longitude = g.latlng
+    location = Location.query.filter_by(latitude=latitude, longitute=longitude)
+    if not location:
+        location = Location(
+            city=city,
+            state=state,
+            address=address,
+            latitude=latitude,
+            longitute=longitude
+        )
     user = User(
         uuid=body.get('uuid'),
         netid=body.get('netid'),
@@ -42,7 +62,8 @@ def post_user():
         cleanliness=body.get('cleanliness'),
         bio=body.get('bio'),
         email=body.get('email'),
-        phone=body.get('phone')
+        phone=body.get('phone'),
+        location=location.id
     )
     db.session.add(user)
     db.session.commit()
@@ -61,7 +82,7 @@ def get_user(user_id):
 
 @app.route('/api/user/<int:user_id>/', methods=['DELETE'])
 def delete_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(uuid=user_id).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     db.session.delete(user)
