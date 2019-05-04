@@ -21,8 +21,7 @@ class User(db.Model):
     bio = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
     phone = db.Column(db.String)
-    longitude = db.Column(db.Float, db.ForeignKey('location.longitude'))
-    latitude = db.Column(db.Float, db.ForeignKey('location.latitude'))
+    location_id = db.Column(db.Float, db.ForeignKey('location.id'))
     location = db.relationship('Location')
 
     def __init__(self, **kwargs):
