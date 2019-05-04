@@ -31,7 +31,7 @@ def get_users():
     return json.dumps({"success": True, "data": data}), 200
 
 
-@app.route('/api/users/', methods=['POST'])
+@app.route('/api/user/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
     return json.dumps({"success": True, "data": body}), 200
