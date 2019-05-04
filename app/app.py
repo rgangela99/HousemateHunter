@@ -34,42 +34,42 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
-    print(body)
-    city = body.get('city')     # make capitalization consistent
-    state = body.get('state')   # turn into abbreviation
-    address = body.get('address')
-    g = geocoder.google(
-        "{}, {}, {}".format(address, city, state))
-    if not g.ok:
-        return json.dumps({"success": False, "error": "Invalid location"}), 400
-    latitude, longitude = g.latlng
-    location = Location.query.filter_by(latitude=latitude, longitute=longitude)
-    if not location:
-        location = Location(
-            city=city,
-            state=state,
-            address=address,
-            latitude=latitude,
-            longitute=longitude
-        )
-    user = User(
-        uuid=body.get('uuid'),
-        name=body.get('name'),
-        netid=body.get('netid'),
-        grad_year=body.get('grad_year'),
-        age=body.get('age'),
-        gender=body.get('gender'),
-        sleep_time=body.get('sleep_time'),
-        cleanliness=body.get('cleanliness'),
-        bio=body.get('bio'),
-        email=body.get('email'),
-        phone=body.get('phone'),
-        location=location.id
-    )
-    db.session.add(user)
-    db.session.commit()
-    res = {"success": True, "data": user.serialize()}
-    return json.dumps(res), 201
+    return json.dumps({"success": True, "data": body}), 200
+    # city = body.get('city')     # make capitalization consistent
+    # state = body.get('state')   # turn into abbreviation
+    # address = body.get('address')
+    # g = geocoder.google(
+    #     "{}, {}, {}".format(address, city, state))
+    # if not g.ok:
+    #     return json.dumps({"success": False, "error": "Invalid location"}), 400
+    # latitude, longitude = g.latlng
+    # location = Location.query.filter_by(latitude=latitude, longitute=longitude)
+    # if not location:
+    #     location = Location(
+    #         city=city,
+    #         state=state,
+    #         address=address,
+    #         latitude=latitude,
+    #         longitute=longitude
+    #     )
+    # user = User(
+    #     uuid=body.get('uuid'),
+    #     name=body.get('name'),
+    #     netid=body.get('netid'),
+    #     grad_year=body.get('grad_year'),
+    #     age=body.get('age'),
+    #     gender=body.get('gender'),
+    #     sleep_time=body.get('sleep_time'),
+    #     cleanliness=body.get('cleanliness'),
+    #     bio=body.get('bio'),
+    #     email=body.get('email'),
+    #     phone=body.get('phone'),
+    #     location=location.id
+    # )
+    # db.session.add(user)
+    # db.session.commit()
+    # res = {"success": True, "data": user.serialize()}
+    # return json.dumps(res), 201
 
 
 @app.route('/api/user/<int:user_id>/', methods=['GET'])
