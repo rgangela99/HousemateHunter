@@ -1,0 +1,100 @@
+2019-05-04T21:17:56.434859+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+2019-05-04T21:17:56.434860+00:00 app[web.1]: util.raise_from_cause(sqlalchemy_exception, exc_info)
+2019-05-04T21:17:56.434861+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+2019-05-04T21:17:56.434862+00:00 app[web.1]: reraise(type(exception), exception, tb=exc_tb, cause=cause)
+2019-05-04T21:17:56.434863+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 128, in reraise
+2019-05-04T21:17:56.434865+00:00 app[web.1]: raise value.with_traceback(tb)
+2019-05-04T21:17:56.434866+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1244, in _execute_context
+2019-05-04T21:17:56.434867+00:00 app[web.1]: cursor, statement, parameters, context
+2019-05-04T21:17:56.434868+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 552, in do_execute
+2019-05-04T21:17:56.434869+00:00 app[web.1]: cursor.execute(statement, parameters)
+2019-05-04T21:17:56.434870+00:00 app[web.1]: sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "name" violates not-null constraint
+2019-05-04T21:17:56.434871+00:00 app[web.1]: DETAIL:  Failing row contains (asdkfjlkjl, null, null, 2021, 20, 1, null, 0, , null, null, null).
+2019-05-04T21:17:56.434872+00:00 app[web.1]: 
+2019-05-04T21:17:56.434874+00:00 app[web.1]: [SQL: INSERT INTO "user" (uuid, name, netid, grad_year, age, gender, sleep_time, cleanliness, bio, email, phone, location_id) VALUES (%(uuid)s, %(name)s, %(netid)s, %(grad_year)s, %(age)s, %(gender)s, %(sleep_time)s, %(cleanliness)s, %(bio)s, %(email)s, %(phone)s, %(location_id)s)]
+2019-05-04T21:17:56.434876+00:00 app[web.1]: [parameters: {'uuid': 'asdkfjlkjl', 'name': None, 'netid': None, 'grad_year': 2021, 'age': 20, 'gender': 1, 'sleep_time': None, 'cleanliness': 0, 'bio': '', 'email': None, 'phone': None, 'location_id': None}]
+2019-05-04T21:17:56.434877+00:00 app[web.1]: (Background on this error at: http://sqlalche.me/e/gkpj)
+2019-05-04T21:17:56.435586+00:00 app[web.1]: 10.52.4.51 - - [04/May/2019:21:17:56 +0000] "POST /api/users/ HTTP/1.1" 500 290 "-" "PostmanRuntime/7.11.0"
+2019-05-04T21:26:31.140757+00:00 heroku[router]: at=info method=POST path="/api/users/" host=housemate-hunter.herokuapp.com request_id=4c93d08d-1355-473e-8450-f07f81308f1f fwd="208.105.110.179" dyno=web.1 connect=0ms service=11ms status=500 bytes=455 protocol=https
+2019-05-04T21:26:31.132325+00:00 app[web.1]: 2019-05-04 21:26:31,132 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2019-05-04T21:26:31.132729+00:00 app[web.1]: 2019-05-04 21:26:31,132 INFO sqlalchemy.engine.base.Engine INSERT INTO "user" (uuid, name, netid, grad_year, age, gender, sleep_time, cleanliness, bio, email, phone, location_id) VALUES (%(uuid)s, %(name)s, %(netid)s, %(grad_year)s, %(age)s, %(gender)s, %(sleep_time)s, %(cleanliness)s, %(bio)s, %(email)s, %(phone)s, %(location_id)s)
+2019-05-04T21:26:31.132936+00:00 app[web.1]: 2019-05-04 21:26:31,132 INFO sqlalchemy.engine.base.Engine {'uuid': 'asdkfjlkjl', 'name': None, 'netid': None, 'grad_year': 2021, 'age': 20, 'gender': 1, 'sleep_time': None, 'cleanliness': 0, 'bio': 'Hello', 'email': None, 'phone': None, 'location_id': None}
+2019-05-04T21:26:31.137471+00:00 app[web.1]: 2019-05-04 21:26:31,137 INFO sqlalchemy.engine.base.Engine ROLLBACK
+2019-05-04T21:26:31.139614+00:00 app[web.1]: [2019-05-04 21:26:31,138] ERROR in app: Exception on /api/users/ [POST]
+2019-05-04T21:26:31.139617+00:00 app[web.1]: Traceback (most recent call last):
+2019-05-04T21:26:31.139619+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1244, in _execute_context
+2019-05-04T21:26:31.139621+00:00 app[web.1]: cursor, statement, parameters, context
+2019-05-04T21:26:31.139623+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 552, in do_execute
+2019-05-04T21:26:31.139624+00:00 app[web.1]: cursor.execute(statement, parameters)
+2019-05-04T21:26:31.139630+00:00 app[web.1]: psycopg2.errors.NotNullViolation: null value in column "name" violates not-null constraint
+2019-05-04T21:26:31.139632+00:00 app[web.1]: DETAIL:  Failing row contains (asdkfjlkjl, null, null, 2021, 20, 1, null, 0, Hello, null, null, null).
+2019-05-04T21:26:31.139633+00:00 app[web.1]: 
+2019-05-04T21:26:31.139635+00:00 app[web.1]: 
+2019-05-04T21:26:31.139636+00:00 app[web.1]: The above exception was the direct cause of the following exception:
+2019-05-04T21:26:31.139638+00:00 app[web.1]: 
+2019-05-04T21:26:31.139639+00:00 app[web.1]: Traceback (most recent call last):
+2019-05-04T21:26:31.139641+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+2019-05-04T21:26:31.139642+00:00 app[web.1]: response = self.full_dispatch_request()
+2019-05-04T21:26:31.139644+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+2019-05-04T21:26:31.139645+00:00 app[web.1]: rv = self.handle_user_exception(e)
+2019-05-04T21:26:31.139647+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+2019-05-04T21:26:31.139648+00:00 app[web.1]: reraise(exc_type, exc_value, tb)
+2019-05-04T21:26:31.139650+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+2019-05-04T21:26:31.139652+00:00 app[web.1]: raise value
+2019-05-04T21:26:31.139653+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+2019-05-04T21:26:31.139655+00:00 app[web.1]: rv = self.dispatch_request()
+2019-05-04T21:26:31.139657+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+2019-05-04T21:26:31.139659+00:00 app[web.1]: return self.view_functions[rule.endpoint](**req.view_args)
+2019-05-04T21:26:31.139661+00:00 app[web.1]: File "/app/app/__init__.py", line 45, in post_user
+2019-05-04T21:26:31.139663+00:00 app[web.1]: db.session.commit()
+2019-05-04T21:26:31.139665+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
+2019-05-04T21:26:31.139667+00:00 app[web.1]: return getattr(self.registry(), name)(*args, **kwargs)
+2019-05-04T21:26:31.139668+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 1026, in commit
+2019-05-04T21:26:31.139670+00:00 app[web.1]: self.transaction.commit()
+2019-05-04T21:26:31.139672+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 493, in commit
+2019-05-04T21:26:31.139673+00:00 app[web.1]: self._prepare_impl()
+2019-05-04T21:26:31.139675+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 472, in _prepare_impl
+2019-05-04T21:26:31.139677+00:00 app[web.1]: self.session.flush()
+2019-05-04T21:26:31.139679+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2451, in flush
+2019-05-04T21:26:31.139680+00:00 app[web.1]: self._flush(objects)
+2019-05-04T21:26:31.139682+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2589, in _flush
+2019-05-04T21:26:31.139684+00:00 app[web.1]: transaction.rollback(_capture_exception=True)
+2019-05-04T21:26:31.139685+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 68, in __exit__
+2019-05-04T21:26:31.139687+00:00 app[web.1]: compat.reraise(exc_type, exc_value, exc_tb)
+2019-05-04T21:26:31.139689+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 129, in reraise
+2019-05-04T21:26:31.139690+00:00 app[web.1]: raise value
+2019-05-04T21:26:31.139692+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2549, in _flush
+2019-05-04T21:26:31.139694+00:00 app[web.1]: flush_context.execute()
+2019-05-04T21:26:31.139696+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
+2019-05-04T21:26:31.139697+00:00 app[web.1]: rec.execute(self)
+2019-05-04T21:26:31.139699+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
+2019-05-04T21:26:31.139700+00:00 app[web.1]: uow,
+2019-05-04T21:26:31.139702+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+2019-05-04T21:26:31.139703+00:00 app[web.1]: insert,
+2019-05-04T21:26:31.139705+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 1066, in _emit_insert_statements
+2019-05-04T21:26:31.139706+00:00 app[web.1]: c = cached_connections[connection].execute(statement, multiparams)
+2019-05-04T21:26:31.139708+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 988, in execute
+2019-05-04T21:26:31.139710+00:00 app[web.1]: return meth(self, multiparams, params)
+2019-05-04T21:26:31.139711+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+2019-05-04T21:26:31.139713+00:00 app[web.1]: return connection._execute_clauseelement(self, multiparams, params)
+2019-05-04T21:26:31.139714+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+2019-05-04T21:26:31.139716+00:00 app[web.1]: distilled_params,
+2019-05-04T21:26:31.139717+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
+2019-05-04T21:26:31.139724+00:00 app[web.1]: e, statement, parameters, cursor, context
+2019-05-04T21:26:31.139726+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+2019-05-04T21:26:31.139727+00:00 app[web.1]: util.raise_from_cause(sqlalchemy_exception, exc_info)
+2019-05-04T21:26:31.139729+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+2019-05-04T21:26:31.139730+00:00 app[web.1]: reraise(type(exception), exception, tb=exc_tb, cause=cause)
+2019-05-04T21:26:31.139732+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 128, in reraise
+2019-05-04T21:26:31.139733+00:00 app[web.1]: raise value.with_traceback(tb)
+2019-05-04T21:26:31.139735+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1244, in _execute_context
+2019-05-04T21:26:31.139736+00:00 app[web.1]: cursor, statement, parameters, context
+2019-05-04T21:26:31.139738+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 552, in do_execute
+2019-05-04T21:26:31.139740+00:00 app[web.1]: cursor.execute(statement, parameters)
+2019-05-04T21:26:31.139741+00:00 app[web.1]: sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "name" violates not-null constraint
+2019-05-04T21:26:31.139743+00:00 app[web.1]: DETAIL:  Failing row contains (asdkfjlkjl, null, null, 2021, 20, 1, null, 0, Hello, null, null, null).
+2019-05-04T21:26:31.139744+00:00 app[web.1]: 
+2019-05-04T21:26:31.139746+00:00 app[web.1]: [SQL: INSERT INTO "user" (uuid, name, netid, grad_year, age, gender, sleep_time, cleanliness, bio, email, phone, location_id) VALUES (%(uuid)s, %(name)s, %(netid)s, %(grad_year)s, %(age)s, %(gender)s, %(sleep_time)s, %(cleanliness)s, %(bio)s, %(email)s, %(phone)s, %(location_id)s)]
+2019-05-04T21:26:31.139749+00:00 app[web.1]: [parameters: {'uuid': 'asdkfjlkjl', 'name': None, 'netid': None, 'grad_year': 2021, 'age': 20, 'gender': 1, 'sleep_time': None, 'cleanliness': 0, 'bio': 'Hello', 'email': None, 'phone': None, 'location_id': None}]
+2019-05-04T21:26:31.139751+00:00 app[web.1]: (Background on this error at: http://sqlalche.me/e/gkpj)
+2019-05-04T21:26:31.140705+00:00 app[web.1]: 10.63.161.234 - - [04/May/2019:21:26:31 +0000] "POST /api/users/ HTTP/1.1" 500 290 "-" "python-requests/2.21.0"
