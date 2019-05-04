@@ -61,7 +61,7 @@ class Location(db.Model):
     address = db.Column(db.String)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
-    users = db.relationship("User")
+    # users = db.relationship("User")
 
     def __init__(self, **kwargs):
         self.city = kwargs.get('city')
