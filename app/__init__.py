@@ -34,6 +34,9 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
+    # uuid = body.get('uuid')
+    # if User.query.filter_by(uuid=uuid).first():
+    #     return json.dumps({"success": False, "error": "User already exists"}), 400
     city = body.get('city')     # make capitalization consistent
     state = body.get('state')   # turn into abbreviation
     address = body.get('address')
@@ -52,6 +55,7 @@ def post_user():
             latitude=latitude,
             longitute=longitude
         )
+    print(location.id)
     user = User(
         uuid=body.get('uuid'),
         name=body.get('name'),
