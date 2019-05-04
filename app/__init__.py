@@ -42,7 +42,7 @@ def post_user():
     if not g.ok:
         return json.dumps({"success": False, "error": "Invalid location"}), 400
     latitude, longitude = g.latlng
-    location = Location.query.filter_by(latitude=latitude, longitute=longitude)
+    location = Location.query.filter_by(latitude=latitude, longitude=longitude)
     if not location:
         location = Location(
             city=city,
