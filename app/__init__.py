@@ -56,7 +56,7 @@ def post_user():
             longitute=longitude
         )
         print("Location created")
-        print(location.id)
+        print(location)
     print("Location found")
     user = User(
         uuid=body.get('uuid'),
