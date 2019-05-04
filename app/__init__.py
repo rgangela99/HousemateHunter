@@ -55,6 +55,8 @@ def post_user():
             latitude=latitude,
             longitute=longitude
         )
+        db.session.add(location)
+        db.commit()
     user = User(
         uuid=body.get('uuid'),
         name=body.get('name'),
