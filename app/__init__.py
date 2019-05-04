@@ -16,6 +16,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 db.init_app(app)
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 
@@ -56,7 +57,7 @@ def post_user():
             longitute=longitude
         )
         db.session.add(location)
-        db.commit()
+        db.session.commit()
     user = User(
         uuid=body.get('uuid'),
         name=body.get('name'),
