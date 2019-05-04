@@ -19,7 +19,7 @@ class User(db.Model):
     email = db.Column(db.String)
     phone = db.Column(db.String)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
-    location = db.relationship('Location')
+    location = db.relationship('Location', backref="users")
 
     def __init__(self, **kwargs):
         self.uuid = kwargs.get('uuid')
@@ -61,7 +61,30 @@ class Location(db.Model):
     address = db.Column(db.String)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
-    users = db.relationship("User", back_populates="location")
+    users = db.relationship("User")
+
+    def __init__(self, **kwargs):
+        self.city = kwargs.get('city')
+        self.state = kwargs.get('country')
+        self.address = kwargs.get('address')
+        self.longitude = kwargs.get('longitude')
+        self.latitude = kwargs.get('latitude')
+
+    def serialize(self):
+        if self.address:
+            return {
+                "city": self.city,
+                "state": self.state,
+                "address": self.address,
+                "longitude": self.longitude,
+                "latitude": self.latitude
+            }
+        return {
+            "city": self.city,
+            "state": self.state,
+            "longitude": self.longitude,
+            "latitude": self.latitude
+        }
 
 
 class Match(db.Model):
