@@ -34,6 +34,7 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
+    print(body)
     city = body.get('city')     # make capitalization consistent
     state = body.get('state')   # turn into abbreviation
     address = body.get('address')
