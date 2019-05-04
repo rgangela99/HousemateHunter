@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'user'
-    uuid = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     netid = db.Column(db.String, nullable=False)
     grad_year = db.Column(db.Integer, nullable=False)
