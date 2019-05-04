@@ -12,7 +12,7 @@ class User(db.Model):
     netid = db.Column(db.String, nullable=False)
     grad_year = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.Boolean, nullable=False)
+    gender = db.Column(db.Integer, nullable=False)
     sleep_time = db.Column(db.Integer, nullable=False)
     cleanliness = db.Column(db.Integer, nullable=False)
     bio = db.Column(db.String, nullable=False)
@@ -61,7 +61,6 @@ class Location(db.Model):
     address = db.Column(db.String)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
-    # users = db.relationship("User")
 
     def __init__(self, **kwargs):
         self.city = kwargs.get('city')
