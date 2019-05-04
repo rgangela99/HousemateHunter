@@ -72,6 +72,7 @@ class Location(db.Model):
     def serialize(self):
         if self.address:
             return {
+                "id": self.id,
                 "city": self.city,
                 "state": self.state,
                 "address": self.address,
@@ -79,6 +80,7 @@ class Location(db.Model):
                 "latitude": self.latitude
             }
         return {
+            "id": self.id,
             "city": self.city,
             "state": self.state,
             "longitude": self.longitude,

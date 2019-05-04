@@ -55,9 +55,6 @@ def post_user():
             latitude=latitude,
             longitute=longitude
         )
-        print("Location created")
-        print(location)
-    print("Location found")
     user = User(
         uuid=body.get('uuid'),
         name=body.get('name'),
@@ -70,7 +67,7 @@ def post_user():
         bio=body.get('bio'),
         email=body.get('email'),
         phone=body.get('phone'),
-        location=location.id
+        location=location.serialize().id
     )
     db.session.add(user)
     db.session.commit()
