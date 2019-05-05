@@ -132,7 +132,7 @@ def add_nearby_users(location):
             loc['latitude'], loc['longitude'], user_lat, user_long)
         # check if user is within 20 miles
         if dist <= 32:
-            location.nearby.append(user)
+            location.nearby_users.append(user)
     db.session.commit()
 
 
