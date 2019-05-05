@@ -57,7 +57,8 @@ def post_user():
         bio=body.get('bio'),
         email=body.get('email'),
         phone=body.get('phone'),
-        location=location.serialize()['id']
+        location=location.serialize()['id'],
+        profile_pic=body.get('profile_pic')
     )
     update_nearby(user)
     db.session.add(user)
