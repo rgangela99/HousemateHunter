@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'user'
-    uuid = db.Column(db.String, primary_key=True)
+    device_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     netid = db.Column(db.String, nullable=False)
     grad_year = db.Column(db.Integer, nullable=False)
@@ -22,7 +22,7 @@ class User(db.Model):
     location = db.relationship('Location', backref="users")
 
     def __init__(self, **kwargs):
-        self.uuid = kwargs.get('uuid')
+        self.device_id = kwargs.get('uuid')
         self.name = kwargs.get('name')
         self.netid = kwargs.get('netid')
         self.grad_year = kwargs.get('grad_year')
@@ -38,7 +38,7 @@ class User(db.Model):
     def serialize(self):
         location = Location.query.filter_by(id=self.location_id).first()
         return {
-            "uuid": self.uuid,
+            "device_id": self.device_id,
             "name": self.name,
             "netid": self.netid,
             "grad_year": self.grad_year,

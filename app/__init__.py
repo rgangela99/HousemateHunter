@@ -4,6 +4,7 @@ from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
 from .db import db, User, Location
+from .state_abbrev import state_abbrev
 import geocoder
 
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
@@ -34,11 +35,13 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
-    # uuid = body.get('uuid')
-    # if User.query.filter_by(uuid=uuid).first():
-    #     return json.dumps({"success": False, "error": "User already exists"}), 400
-    city = body.get('city')     # make capitalization consistent
-    state = body.get('state')   # turn into abbreviation
+    device_id = body.get('device_id')
+    if User.query.filter_by(device_id=device_id).first():
+        return json.dumps({"success": False, "error": "User already exists"}), 400
+    city = body.get('city').title()
+    state = body.get('state')
+    if state in state_abbrev:
+        state = state_abbrev[state]
     address = body.get('address')
     g = geocoder.google(
         "{}, {}, {}".format(address, city, state))
@@ -58,7 +61,7 @@ def post_user():
         db.session.add(location)
         db.session.commit()
     user = User(
-        uuid=body.get('uuid'),
+        device_id=device_id,
         name=body.get('name'),
         netid=body.get('netid'),
         grad_year=body.get('grad_year'),
@@ -77,18 +80,18 @@ def post_user():
     return json.dumps(res), 201
 
 
-@app.route('/api/user/<int:user_id>/', methods=['GET'])
-def get_user(user_id):
-    user = User.query.filter_by(uuid=user_id).first()
+@app.route('/api/user/<string:device_id>/', methods=['GET'])
+def get_user(device_id):
+    user = User.query.filter_by(device_id=device_id).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     data = user.serialize()
     return json.dumps({"success": True, "data": data}), 200
 
 
-@app.route('/api/user/<int:user_id>/', methods=['DELETE'])
-def delete_user(user_id):
-    user = User.query.filter_by(uuid=user_id).first()
+@app.route('/api/user/<string:device_id>/', methods=['DELETE'])
+def delete_user(device_id):
+    user = User.query.filter_by(device_id=device_id).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     db.session.delete(user)
