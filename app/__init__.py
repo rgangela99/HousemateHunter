@@ -105,7 +105,7 @@ def get_matches(device_id):
     user_sims = []
     for u in nearby:
         if u.device_id == device_id:
-            pass
+            continue
         user_sims.append((compute_sim(user, u), u))
     matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
     data = [u.serialize() for sim, u in matches]
