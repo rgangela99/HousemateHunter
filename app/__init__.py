@@ -108,7 +108,7 @@ def get_matches(device_id):
             continue
         user_sims.append((compute_sim(user, u), u))
     matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
-    data = [u.serialize() for sim, u in matches]
+    data = [{"similarity": sim, "user": u.serialize()} for sim, u in matches]
     return json.dumps({"success": True, "data": data}), 200
 
 
@@ -174,6 +174,8 @@ def find_distance(lat1, long1, lat2, long2):
 
 
 def compute_sim(user1, user2):
+    """ Finds the similarity between user1 and user2 based on graduation year, 
+    age, gender, sleep schedule, cleanliness, and distance """
     year_weight = 0.15
     age_weight = 0.05
     gender_weight = 0.275
