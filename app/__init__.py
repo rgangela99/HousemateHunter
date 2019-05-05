@@ -92,13 +92,24 @@ def get_nearby_users(device_id):
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     nearby = user.location.nearby_users
-    data = [u.serialize() for u in nearby]
+    data = [u.serialize() for u in nearby if u.device_id != device_id]
     return json.dumps({"success": True, "data": data}), 200
 
 
 @app.route('/api/matches/<string:device_id>/', methods=['GET'])
 def get_matches(device_id):
-    pass
+    user = User.query.filter_by(device_id=device_id).first()
+    if not user:
+        return json.dumps({"success": False, "error": "User not found"}), 404
+    nearby = user.location.nearby_users
+    user_sims = []
+    for u in nearby:
+        if u.device_id == device_id:
+            pass
+        user_sims.append((compute_sim(user, u), u))
+    matches = sorted(user_sims, key=lambda x: x[1])[:10]
+    data = [u.serialize for u in matches]
+    return json.dumps({"success": True, "data": data}), 200
 
 
 def find_location(city, state, address):
@@ -163,4 +174,85 @@ def find_distance(lat1, long1, lat2, long2):
 
 
 def compute_sim(user1, user2):
-    pass
+    year_weight = 0.15
+    age_weight = 0.05
+    gender_weight = 0.275
+    sleep_weight = 0.175
+    cleanliness_weight = 0.175
+    location_weight = 0.175
+    sim = year_weight * year_sim(user1, user2)
+    sim += age_weight * age_sim(user1, user2)
+    sim += gender_weight * gender_sim(user1, user2)
+    sim += sleep_weight * sleep_sim(user1, user2)
+    sim += cleanliness_weight * cleanliness_sim(user1, user2)
+    sim += location_weight * location_sim(user1, user2)
+    return sim
+
+
+def year_sim(user1, user2):
+    diff = abs(user1.grad_year - user2.grad_year)
+    if diff == 0:
+        return 1
+    elif user1.grad_year <= 2019 and user2.grad_year <= 2019:
+        if diff <= 2:
+            return 0.75
+        elif diff == 3:
+            return 0.5
+        elif diff == 4:
+            return 0.25
+        return 0
+    elif diff == 1:
+        return 0.67
+    elif diff == 2:
+        return 0.33
+    return 0
+
+
+def age_sim(user1, user2):
+    diff = abs(user1.age - user2.age)
+    if diff == 0:
+        return 1
+    elif diff == 1:
+        return 0.75
+    elif diff == 2:
+        return 0.5
+    elif diff == 3:
+        return 0.25
+    return 0
+
+
+def gender_sim(user1, user2):
+    return user1.gender == user2.gender
+
+
+def sleep_sim(user1, user2):
+    diff = abs(user1.sleep_sim - user2.sleep_sim)
+    if diff == 0:
+        return 1
+    elif diff == 1:
+        return 0.25
+    return 0
+
+
+def cleanliness_sim(user1, user2):
+    return user1.cleanliness == user2.cleanliness
+
+
+def location_sim(user1, user2):
+    loc1 = user1.location
+    loc2 = user2.location
+    dist = find_distance(loc1.latitude, loc1.longitude,
+                         loc2.latitude, loc2.longitude)
+    if dist == 0:
+        return 1
+    elif dist <= 5:
+        return 0.9
+    elif dist <= 10:
+        return 0.775
+    elif dist <= 15:
+        return 0.625
+    elif dist <= 20:
+        return 0.45
+    elif dist <= 25:
+        return 0.25
+    return 0
