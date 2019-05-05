@@ -107,8 +107,8 @@ def get_matches(device_id):
         if u.device_id == device_id:
             pass
         user_sims.append((compute_sim(user, u), u))
-    matches = sorted(user_sims, key=lambda x: x[1])[:10]
-    data = [u.serialize for u in matches]
+    matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
+    data = [u.serialize() for sim, u in matches]
     return json.dumps({"success": True, "data": data}), 200
 
 
