@@ -8,15 +8,14 @@ nearby_association_table = db.Table(
     'nearby',
     db.Model.metadata,
     db.Column('location_id', db.Integer, db.ForeignKey('location.id')),
-    db.Column('user_id', db.String, db.ForeignKey('user.device_id'))
+    db.Column('user_id', db.String, db.ForeignKey('user.netid'))
 )
 
 
 class User(db.Model):
     __tablename__ = 'user'
-    device_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    netid = db.Column(db.String, nullable=False)
+    netid = db.Column(db.String, nullable=False, primary_key=True)
     grad_year = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Integer, nullable=False)
@@ -28,9 +27,9 @@ class User(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey(
         'location.id'), nullable=False)
     location = db.relationship('Location', backref="users")
+    profile_pic = db.Column(db.String)
 
     def __init__(self, **kwargs):
-        self.device_id = kwargs.get('device_id')
         self.name = kwargs.get('name')
         self.netid = kwargs.get('netid')
         self.grad_year = kwargs.get('grad_year')
@@ -42,11 +41,11 @@ class User(db.Model):
         self.email = kwargs.get('email')
         self.phone = kwargs.get('phone')
         self.location_id = kwargs.get('location')
+        self.profile_pic = kwargs.get('profile_pic')
 
     def serialize(self):
         location = Location.query.filter_by(id=self.location_id).first()
-        return {
-            "device_id": self.device_id,
+        user = {
             "name": self.name,
             "netid": self.netid,
             "grad_year": self.grad_year,
@@ -59,6 +58,9 @@ class User(db.Model):
             "phone": self.phone,
             "location": location.serialize()
         }
+        if self.profile_pic:
+            user['profile_pic'] = self.profile_pic
+        return user
 
 
 class Location(db.Model):
@@ -93,7 +95,7 @@ class Match(db.Model):
     __tablename__ = 'match'
     id = db.Column(db.Integer, primary_key=True)
     similarity = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.String, db.ForeignKey('user.device_id'))
+    user_id = db.Column(db.String, db.ForeignKey('user.netid'))
     match_id = db.Column(db.String)
     user = db.relationship('User', backref='matches')
 

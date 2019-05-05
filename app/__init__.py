@@ -36,8 +36,8 @@ def get_users():
 @app.route('/api/users/', methods=['POST'])
 def post_user():
     body = json.loads(request.data.decode('utf-8'))
-    device_id = body.get('device_id')
-    if User.query.filter_by(device_id=device_id).first():
+    netid = body.get('netid')
+    if User.query.filter_by(netid=netid).first():
         return json.dumps({"success": False, "error": "User already exists"}), 400
     city = body.get('city').title()
     state = body.get('state').capitalize()
@@ -47,9 +47,8 @@ def post_user():
     address = body.get('address')
     location = find_location(city, state, address)
     user = User(
-        device_id=device_id,
         name=body.get('name'),
-        netid=body.get('netid'),
+        netid=netid,
         grad_year=body.get('grad_year'),
         age=body.get('age'),
         gender=body.get('gender'),
@@ -67,18 +66,23 @@ def post_user():
     return json.dumps(res), 201
 
 
-@app.route('/api/user/<string:device_id>/', methods=['GET'])
-def get_user(device_id):
-    user = User.query.filter_by(device_id=device_id).first()
+@app.route('/api/user/<string:netid>/', methods=['GET'])
+def get_user(netid):
+    user = User.query.filter_by(netid=netid).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     data = user.serialize()
     return json.dumps({"success": True, "data": data}), 200
 
 
-@app.route('/api/user/<string:device_id>/', methods=['DELETE'])
-def delete_user(device_id):
-    user = User.query.filter_by(device_id=device_id).first()
+@app.route('/api/user/<string:netid>/<string:field>/', methods=['GET'])
+def get_user_info(netid, field):
+    pass
+
+
+@app.route('/api/user/<string:netid>/', methods=['DELETE'])
+def delete_user(netid):
+    user = User.query.filter_by(netid=netid).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     db.session.delete(user)
@@ -86,26 +90,26 @@ def delete_user(device_id):
     return json.dumps({"success": True, "data": user.serialize()}), 200
 
 
-@app.route('/api/nearby/<string:device_id>/', methods=['GET'])
-def get_nearby_users(device_id):
-    user = User.query.filter_by(device_id=device_id).first()
+@app.route('/api/nearby/<string:netid>/', methods=['GET'])
+def get_nearby_users(netid):
+    user = User.query.filter_by(netid=netid).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     nearby = user.location.nearby_users
     data = {"users": [u.serialize()
-                      for u in nearby if u.device_id != device_id]}
+                      for u in nearby if u.netid != netid]}
     return json.dumps({"success": True, "data": data}), 200
 
 
-@app.route('/api/matches/<string:device_id>/', methods=['GET'])
-def get_matches(device_id):
-    user = User.query.filter_by(device_id=device_id).first()
+@app.route('/api/matches/<string:netid>/', methods=['GET'])
+def get_matches(netid):
+    user = User.query.filter_by(netid=netid).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     nearby = user.location.nearby_users
     user_sims = []
     for u in nearby:
-        if u.device_id == device_id:
+        if u.netid == netid:
             continue
         user_sims.append((compute_sim(user, u), u))
     matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
