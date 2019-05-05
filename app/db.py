@@ -4,6 +4,13 @@ from .app_enums import Gender
 
 db = SQLAlchemy()
 
+nearby_association_table = db.Table(
+    'nearby',
+    db.Model.metadata,
+    db.Column('location_id', db.Integer, db.ForeignKey('location.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.device_id'))
+)
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -18,7 +25,8 @@ class User(db.Model):
     bio = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
     phone = db.Column(db.String)
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey(
+        'location.id'), nullable=False)
     location = db.relationship('Location', backref="users")
 
     def __init__(self, **kwargs):
@@ -61,6 +69,7 @@ class Location(db.Model):
     address = db.Column(db.String)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
+    nearby_users = db.relationship('User', secondary=nearby_association_table)
 
     def __init__(self, **kwargs):
         self.city = kwargs.get('city')
@@ -70,24 +79,32 @@ class Location(db.Model):
         self.latitude = kwargs.get('latitude')
 
     def serialize(self):
+        location = {"id": self.id,
+                    "city": self.city,
+                    "state": self.state,
+                    "longitude": self.longitude,
+                    "latitude": self.latitude}
         if self.address:
-            return {
-                "id": self.id,
-                "city": self.city,
-                "state": self.state,
-                "address": self.address,
-                "longitude": self.longitude,
-                "latitude": self.latitude
-            }
-        return {
-            "id": self.id,
-            "city": self.city,
-            "state": self.state,
-            "longitude": self.longitude,
-            "latitude": self.latitude
-        }
+            location["address"] = self.address
+        return location
 
 
 class Match(db.Model):
     __tablename__ = 'match'
     id = db.Column(db.Integer, primary_key=True)
+    similarity = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey('user.device_id'))
+    match_id = db.Column(db.String)
+    user = db.relationship('User', backref='matches')
+
+    def __init__(self, **kwargs):
+        self.similarity = kwargs.get('similarity')
+        self.user_id = kwargs.get('user_id')
+        self.match_id = kwargs.get('match_id')
+
+    def serialize(self):
+        return {
+            "similarity": self.similarity,
+            "user_id": self.user_id,
+            "match_id": self.match_id
+        }

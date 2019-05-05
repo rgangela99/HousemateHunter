@@ -1,3 +1,5 @@
+# Source: https://gist.github.com/rogerallen/1583593
+
 state_abbrev = {
     'Alabama': 'AL',
     'Alaska': 'AK',
