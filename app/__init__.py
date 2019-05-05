@@ -60,6 +60,7 @@ def post_user():
         phone=body.get('phone'),
         location=location.serialize()['id']
     )
+    update_nearby(user)
     db.session.add(user)
     db.session.commit()
     res = {"success": True, "data": user.serialize()}
@@ -131,6 +132,19 @@ def add_nearby_users(location):
         dist = find_distance(
             loc['latitude'], loc['longitude'], user_lat, user_long)
         # check if user is within 20 miles
+        if dist <= 32:
+            location.nearby_users.append(user)
+    db.session.commit()
+
+
+def update_nearby(user):
+    locations = Location.query.all()
+    user_lat = user.serialize()['location']['latitude']
+    user_long = user.serialize()['location']['longitude']
+    for location in locations:
+        loc = location.serialize()
+        dist = find_distance(
+            loc['latitude'], loc['longitude'], user_lat, user_long)
         if dist <= 32:
             location.nearby_users.append(user)
     db.session.commit()
