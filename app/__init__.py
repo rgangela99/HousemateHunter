@@ -226,7 +226,7 @@ def gender_sim(user1, user2):
 
 
 def sleep_sim(user1, user2):
-    diff = abs(user1.sleep_sim - user2.sleep_sim)
+    diff = abs(user1.sleep_time - user2.sleep_time)
     if diff == 0:
         return 1
     elif diff == 1:
