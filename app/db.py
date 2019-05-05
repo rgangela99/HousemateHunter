@@ -22,7 +22,7 @@ class User(db.Model):
     location = db.relationship('Location', backref="users")
 
     def __init__(self, **kwargs):
-        self.device_id = kwargs.get('uuid')
+        self.device_id = kwargs.get('device_id')
         self.name = kwargs.get('name')
         self.netid = kwargs.get('netid')
         self.grad_year = kwargs.get('grad_year')
