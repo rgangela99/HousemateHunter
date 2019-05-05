@@ -48,14 +48,12 @@ def post_user():
     location = Location.query.filter_by(
         latitude=latitude, longitude=longitude).first()
     if not location:
-        print(city)
-        print(state)
         location = Location(
             city=city,
             state=state,
             address=address,
             latitude=latitude,
-            longitute=longitude
+            longitude=longitude
         )
         db.session.add(location)
         db.session.commit()

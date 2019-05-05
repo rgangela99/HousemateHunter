@@ -64,7 +64,7 @@ class Location(db.Model):
 
     def __init__(self, **kwargs):
         self.city = kwargs.get('city')
-        self.state = kwargs.get('country')
+        self.state = kwargs.get('state')
         self.address = kwargs.get('address')
         self.longitude = kwargs.get('longitude')
         self.latitude = kwargs.get('latitude')
