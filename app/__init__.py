@@ -91,7 +91,7 @@ def get_nearby_users(device_id):
     user = User.query.filter_by(device_id=device_id).first()
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
-    nearby = user.location.nearby
+    nearby = user.location.nearby_users
     data = [u.serialize() for u in nearby]
     return json.dumps({"success": True, "data": data}), 200
 
