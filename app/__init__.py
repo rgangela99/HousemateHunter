@@ -29,7 +29,7 @@ def root():
 @app.route('/api/users/', methods=['GET'])
 def get_users():
     users = User.query.all()
-    data = [user.serialize() for user in users]
+    data = {"users": [user.serialize() for user in users]}
     return json.dumps({"success": True, "data": data}), 200
 
 
@@ -92,7 +92,8 @@ def get_nearby_users(device_id):
     if not user:
         return json.dumps({"success": False, "error": "User not found"}), 404
     nearby = user.location.nearby_users
-    data = [u.serialize() for u in nearby if u.device_id != device_id]
+    data = {"users": [u.serialize()
+                      for u in nearby if u.device_id != device_id]}
     return json.dumps({"success": True, "data": data}), 200
 
 
@@ -108,7 +109,8 @@ def get_matches(device_id):
             continue
         user_sims.append((compute_sim(user, u), u))
     matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
-    data = [{"similarity": sim, "user": u.serialize()} for sim, u in matches]
+    data = {"users": [{"similarity": sim, "user": u.serialize()}
+                      for sim, u in matches]}
     return json.dumps({"success": True, "data": data}), 200
 
 
