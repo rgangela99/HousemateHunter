@@ -8,7 +8,7 @@ nearby_association_table = db.Table(
     'nearby',
     db.Model.metadata,
     db.Column('location_id', db.Integer, db.ForeignKey('location.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.device_id'))
+    db.Column('user_id', db.String, db.ForeignKey('user.device_id'))
 )
 
 
