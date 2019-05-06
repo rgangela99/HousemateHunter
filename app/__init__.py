@@ -302,8 +302,8 @@ def cleanliness_sim(user1, user2):
 
 
 def location_sim(user1, user2):
-    loc1 = Location.query().filter_by(id=user1.location_id)
-    loc2 = Location.query().filter_by(id=user2.location_id)
+    loc1 = Location.query().filter_by(id=user1.location_id).first()
+    loc2 = Location.query().filter_by(id=user2.location_id).first()
     dist = find_distance(loc1.latitude, loc1.longitude,
                          loc2.latitude, loc2.longitude)
     if dist == 0:
