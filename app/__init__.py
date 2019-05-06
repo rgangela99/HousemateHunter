@@ -176,7 +176,14 @@ def update_matches(user):
         sims.append((sim, other_user))
         other_matches = sorted(Match.query.filter_by(
             user_id=user.netid), key=lambda x: x.similarity)
-        if sim > other_matches[0].sim:
+        if len(other_matches) < 10:
+            new_match = Match(
+                similarity=sim,
+                user_id=user.netid,
+                match_id=other_user.netid
+            )
+            db.session.add(new_match)
+        elif sim > other_matches[0].sim:
             db.session.delete(other_matches[0])
             new_match = Match(
                 similarity=sim,
