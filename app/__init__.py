@@ -111,7 +111,8 @@ def get_nearby_users(netid):
 
 @app.route('/api/matches/<string:netid>/', methods=['GET'])
 def get_matches(netid):
-    matches = Match.query.filter_by(user_id=netid)
+    matches = sorted(Match.query.filter_by(user_id=netid),
+                     key=lambda x: x.similarity, reverse=True)
     data = {"users": [{"similarity": m.similarity,
                        "user": m.match.serialize()} for m in matches]}
     return json.dumps({"success": True, "data": data}), 200
@@ -167,7 +168,7 @@ def update_nearby(user):
 
 
 def update_matches(user):
-    users = User.query.all()
+    users = user.location.nearby_users
     sims = []
     for other_user in users:
         if other_user.netid == user.netid:
