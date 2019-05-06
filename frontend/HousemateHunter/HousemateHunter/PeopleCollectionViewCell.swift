@@ -11,7 +11,7 @@ import UIKit
 class PeopleCollectionViewCell: UICollectionViewCell {
     
     var nameTextView: UITextView!
-    var theirImageData64: String!
+    //var theirImageData64: String!
     var theirProfileImageView: UIImageView!
     
     
@@ -21,8 +21,8 @@ class PeopleCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let dataDecoded:NSData = NSData(base64Encoded: theirImageData64, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        let decodedProfileImage:UIImage = UIImage(data: dataDecoded as Data)!
+//        let dataDecoded:NSData = NSData(base64Encoded: theirImageData64, options: NSData.Base64DecodingOptions(rawValue: 0))!
+//        let decodedProfileImage:UIImage = UIImage(data: dataDecoded as Data)!
         
         contentView.backgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
         contentView.layer.cornerRadius = 10
@@ -45,7 +45,6 @@ class PeopleCollectionViewCell: UICollectionViewCell {
         theirProfileImageView.contentMode = .scaleAspectFill
         theirProfileImageView.clipsToBounds = true
         theirProfileImageView.layer.cornerRadius = 10
-        theirProfileImageView.image = decodedProfileImage
         contentView.addSubview(theirProfileImageView)
         
         
@@ -77,8 +76,8 @@ class PeopleCollectionViewCell: UICollectionViewCell {
     
     func configure(for person: Person) {
         nameTextView.text = "Name: \(person.name) \nYear: \(person.grad_year)"
-        theirImageData64 = person.profile_pic
-        //theirProfileImageView.image = person.theirProfileImage
+        //theirImageData64 = person.profile_pic
+        theirProfileImageView.image = person.profile_pic
         
         
         

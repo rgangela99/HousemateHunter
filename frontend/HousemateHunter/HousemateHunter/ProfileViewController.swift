@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
     var theirEmail: UILabel!
     
     var placeHolderTheirUserName: String
-    var placeHolderTheirProfileImageData: String
+    var placeHolderTheirProfileImage: UIImage
     var placeHolderTheirGender: String
     var placeHolderTheirBio: String
     var placeHolderTheirFunFact: String
@@ -53,9 +53,9 @@ class ProfileViewController: UIViewController {
     
 
     
-    init(placeHolderTheirUserName: String, placeHolderTheirProfileImageData: String, placeHolderTheirGender: String, placeHolderTheirBio: String, placeHolderTheirFunFact: String, placeHolderTheirPriceMin: Int, placeHolderTheirPriceMax: Int, placeHolderTheirSleep: String, placeHolderTheirCleanliness: String, placeHolderTheirPhoneNumber: String, placeHolderTheirEmail: String){
+    init(placeHolderTheirUserName: String, placeHolderTheirProfileImage: UIImage, placeHolderTheirGender: String, placeHolderTheirBio: String, placeHolderTheirFunFact: String, placeHolderTheirPriceMin: Int, placeHolderTheirPriceMax: Int, placeHolderTheirSleep: String, placeHolderTheirCleanliness: String, placeHolderTheirPhoneNumber: String, placeHolderTheirEmail: String){
         self.placeHolderTheirUserName = placeHolderTheirUserName
-        self.placeHolderTheirProfileImageData = placeHolderTheirProfileImageData
+        self.placeHolderTheirProfileImage = placeHolderTheirProfileImage
         self.placeHolderTheirGender = placeHolderTheirGender
         self.placeHolderTheirBio = placeHolderTheirBio
         self.placeHolderTheirFunFact = placeHolderTheirFunFact
@@ -103,7 +103,7 @@ class ProfileViewController: UIViewController {
         
         theirProfileImagePageView = UIImageView()
         theirProfileImagePageView.translatesAutoresizingMaskIntoConstraints = false
-        //theirProfileImagePageView.image = placeHolderTheirProfileImage
+        theirProfileImagePageView.image = placeHolderTheirProfileImage
         theirProfileImagePageView.backgroundColor = .white
         theirProfileImagePageView.layer.cornerRadius = 50
         theirProfileImagePageView.clipsToBounds = true
@@ -285,8 +285,8 @@ class ProfileViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            funfactView.bottomAnchor.constraint(equalTo: theirFunFactLabel.bottomAnchor, constant: -2),
-            funfactView.heightAnchor.constraint(equalToConstant: 30),
+            funfactView.topAnchor.constraint(equalTo: theirFunFactLabel.topAnchor, constant: -2),
+            funfactView.heightAnchor.constraint(equalToConstant: 100),
             funfactView.leadingAnchor.constraint(equalTo: theirFunFactLabel.trailingAnchor, constant: 20),
             funfactView.trailingAnchor.constraint(equalTo: topRect.trailingAnchor, constant: -30)
             ])
@@ -382,7 +382,6 @@ class ProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
             theirEmail.topAnchor.constraint(equalTo: theirContactInfoLabel.bottomAnchor, constant: 45),
             theirEmail.heightAnchor.constraint(equalToConstant: 30),
-            theirEmail.widthAnchor.constraint(equalToConstant: 125),
             theirEmail.leadingAnchor.constraint(equalTo: theirEmailLabel.leadingAnchor, constant: 50)
             ])
    
