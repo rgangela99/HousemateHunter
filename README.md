@@ -11,7 +11,7 @@ iOS:
 - AutoLayout and NSLayoutConstraint is used
 - CollectionView is used to display all of the other users
 - UINavigationController is used to display profile information of each user
-- ABOUT API
+- API was not connected, read below
 
 Backend:
 - Designed an API using tables to model Users, their Locations, and Matches between potential roommates
@@ -23,3 +23,6 @@ Backend:
 ![Screenshot 1](images/1.jpg)
 ![Screenshot 2](images/2.jpg)
 ![Screenshot 3](images/3.jpg)
+
+Note for grader:
+Unfortunately, iOS was not able to connect the front end code to the database. We also have a matching button on the main collectionView that we intended to lead to a new collectionView of the most compatible people for the specific user based on their preferences. We tried to convert the profile images to base64 in order to store them in the database but were also unable to do that. All of that code is still in the files just commented out. We ended up just hard coding a few users in order to show how we intended the app to work! Even though we were unable to successfully complete the app, we are really happy with how the front end looks and it was a great learning experience!
