@@ -174,7 +174,7 @@ def update_matches(user):
         sim = compute_sim(user, other_user)
         sims.append((sim, other_user))
         other_matches = sorted(Match.query.filter_by(
-            netid=user.netid), key=lambda x: x.similarity)
+            user_id=user.netid), key=lambda x: x.similarity)
         if sim > other_matches[0].sim:
             db.session.delete(other_matches[0])
             new_match = Match(
