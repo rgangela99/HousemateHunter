@@ -179,16 +179,16 @@ def update_matches(user):
         if len(other_matches) < 10:
             new_match = Match(
                 similarity=sim,
-                user_id=user.netid,
-                match_id=other_user.netid
+                user_id=other_user.netid,
+                match_id=user.netid
             )
             db.session.add(new_match)
         elif sim > other_matches[0].sim:
             db.session.delete(other_matches[0])
             new_match = Match(
                 similarity=sim,
-                user_id=user.netid,
-                match_id=other_user.netid
+                user_id=other_user.netid,
+                match_id=user.netid
             )
             db.session.add(new_match)
     sims = sorted(sims, key=lambda x: x[0], reverse=True)[:10]
