@@ -1,10 +1,9 @@
 import json
 import os
-from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
 from .db import db, User, Location, Match
-from .state_abbrev import state_abbrev
+from .dictionaries import state_abbrev, sleep_time_dict, cleanliness_dict
 import geocoder
 from math import radians, sin, cos, sqrt, asin
 
@@ -52,8 +51,8 @@ def post_user():
         grad_year=body.get('grad_year'),
         age=body.get('age'),
         gender=body.get('gender'),
-        sleep_time=body.get('sleep_time'),
-        cleanliness=body.get('cleanliness'),
+        sleep_time=sleep_time_dict[body.get('sleep_time')],
+        cleanliness=cleanliness_dict[body.get('cleanliness')],
         min_price=body.get('min_price'),
         max_price=body.get('max_price'),
         bio=body.get('bio'),

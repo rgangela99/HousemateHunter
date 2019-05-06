@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from .app_enums import Gender
+from .dictionaries import state_abbrev, sleep_time_dict, cleanliness_dict
 
 
 db = SQLAlchemy()
@@ -55,11 +55,11 @@ class User(db.Model):
         user = {
             "name": self.name,
             "netid": self.netid,
-            "grad_year": self.grad_year,
+            "grad_year": str(self.grad_year),
             "age": self.age,
             "gender": self.gender,
-            "sleep_time": self.sleep_time,
-            "cleanliness": self.cleanliness,
+            "sleep_time": sleep_time_dict[self.sleep_time],
+            "cleanliness": cleanliness_dict[self.cleanliness],
             "min_price": self.min_price,
             "max_price": self.max_price,
             "bio": self.bio,

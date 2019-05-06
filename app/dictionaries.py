@@ -1,5 +1,4 @@
 # Source: https://gist.github.com/rogerallen/1583593
-
 state_abbrev = {
     'Alabama': 'AL',
     'Alaska': 'AK',
@@ -51,4 +50,20 @@ state_abbrev = {
     'West Virginia': 'WV',
     'Wisconsin': 'WI',
     'Wyoming': 'WY',
+}
+
+sleep_time_dict = {
+    0: "before 12am",
+    1: "around 12am",
+    2: "after 12am",
+    "before 12am": 0,
+    "around 12am": 1,
+    "after 12am": 2
+}
+
+cleanliness_dict = {
+    0: "very clean",
+    1: "casual",
+    "very clean": 0,
+    "casual": 1
 }
