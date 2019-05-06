@@ -3,7 +3,7 @@ import os
 from enum import Enum
 from flask import Flask, request
 from collections import defaultdict
-from .db import db, User, Location
+from .db import db, User, Location, Match
 from .state_abbrev import state_abbrev
 import geocoder
 from math import radians, sin, cos, sqrt, asin
@@ -54,13 +54,17 @@ def post_user():
         gender=body.get('gender'),
         sleep_time=body.get('sleep_time'),
         cleanliness=body.get('cleanliness'),
+        min_price=body.get('min_price'),
+        max_price=body.get('max_price'),
         bio=body.get('bio'),
+        fun_fact=body.get('fun_fact'),
         email=body.get('email'),
         phone=body.get('phone'),
         location=location.serialize()['id'],
         profile_pic=body.get('profile_pic')
     )
     update_nearby(user)
+    update_matches(user)
     db.session.add(user)
     db.session.commit()
     res = {"success": True, "data": user.serialize()}
@@ -76,9 +80,12 @@ def get_user(netid):
     return json.dumps({"success": True, "data": data}), 200
 
 
-@app.route('/api/user/<string:netid>/<string:field>/', methods=['GET'])
-def get_user_info(netid, field):
-    pass
+# @app.route('/api/user/<string:netid>/<string:field>/', methods=['GET'])
+# def get_user_info(netid, field):
+#     user = User.query.filter_by(netid=netid).first()
+#     try:
+#         eval("data = user.{}")
+#         return json.dumps({"success": True, "data": data})
 
 
 @app.route('/api/user/<string:netid>/', methods=['DELETE'])
@@ -104,18 +111,8 @@ def get_nearby_users(netid):
 
 @app.route('/api/matches/<string:netid>/', methods=['GET'])
 def get_matches(netid):
-    user = User.query.filter_by(netid=netid).first()
-    if not user:
-        return json.dumps({"success": False, "error": "User not found"}), 404
-    nearby = user.location.nearby_users
-    user_sims = []
-    for u in nearby:
-        if u.netid == netid:
-            continue
-        user_sims.append((compute_sim(user, u), u))
-    matches = sorted(user_sims, key=lambda x: x[0], reverse=True)[:10]
-    data = {"users": [{"similarity": sim, "user": u.serialize()}
-                      for sim, u in matches]}
+    matches = Match.query.filter_by(user_id=netid)
+    data = {"users": [m.match.serialize() for m in matches]}
     return json.dumps({"success": True, "data": data}), 200
 
 
@@ -168,6 +165,35 @@ def update_nearby(user):
     db.session.commit()
 
 
+def update_matches(user):
+    users = User.query.all()
+    sims = []
+    for other_user in users:
+        if other_user.netid == user.netid:
+            continue
+        sim = compute_sim(user, other_user)
+        sims.append((sim, other_user))
+        other_matches = sorted(Match.query.filter_by(
+            netid=user.netid), key=lambda x: x.similarity)
+        if sim > other_matches[0].sim:
+            db.session.delete(other_matches[0])
+            new_match = Match(
+                similarity=sim,
+                user_id=user.netid,
+                match_id=other_user.netid
+            )
+            db.session.add(new_match)
+    sims = sorted(sims, key=lambda x: x[0], reverse=True)[:10]
+    for sim, other_user in sims:
+        match = Match(
+            similarity=sim,
+            user_id=user.netid,
+            match_id=other_user.netid
+        )
+        db.session.add(match)
+    db.session.commit()
+
+
 def find_distance(lat1, long1, lat2, long2):
     """Source: https://rosettacode.org/wiki/Haversine_formula#Python"""
     EARTH_RADIUS = 6372.8
@@ -181,20 +207,22 @@ def find_distance(lat1, long1, lat2, long2):
 
 
 def compute_sim(user1, user2):
-    """ Finds the similarity between user1 and user2 based on graduation year, 
+    """Finds the similarity between user1 and user2 based on graduation year, 
     age, gender, sleep schedule, cleanliness, and distance """
-    year_weight = 0.15
+    year_weight = 0.125
     age_weight = 0.05
-    gender_weight = 0.275
-    sleep_weight = 0.175
-    cleanliness_weight = 0.175
-    location_weight = 0.175
+    gender_weight = 0.25
+    sleep_weight = 0.15
+    cleanliness_weight = 0.15
+    location_weight = 0.15
+    price_weight = 0.125
     sim = year_weight * year_sim(user1, user2)
     sim += age_weight * age_sim(user1, user2)
     sim += gender_weight * gender_sim(user1, user2)
     sim += sleep_weight * sleep_sim(user1, user2)
     sim += cleanliness_weight * cleanliness_sim(user1, user2)
     sim += location_weight * location_sim(user1, user2)
+    sim += price_weight * price_sim(user1, user2)
     return sim
 
 
@@ -265,3 +293,13 @@ def location_sim(user1, user2):
     elif dist <= 25:
         return 0.25
     return 0
+
+
+def price_sim(user1, user2):
+    min1 = user1.min_price
+    min2 = user2.min_price
+    max1 = user1.max_price
+    max2 = user2.max_price
+    if min1 < min2 and max1 < max2 or min1 > min2 and max1 > max2:
+        return 0
+    return 1

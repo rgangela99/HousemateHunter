@@ -21,7 +21,10 @@ class User(db.Model):
     gender = db.Column(db.Integer, nullable=False)
     sleep_time = db.Column(db.Integer, nullable=False)
     cleanliness = db.Column(db.Integer, nullable=False)
+    min_price = db.Column(db.Integer, nullable=False)
+    max_price = db.Column(db.Integer, nullable=False)
     bio = db.Column(db.String, nullable=False)
+    fun_fact = db.Column(db.String)
     email = db.Column(db.String)
     phone = db.Column(db.String)
     location_id = db.Column(db.Integer, db.ForeignKey(
@@ -37,7 +40,10 @@ class User(db.Model):
         self.gender = kwargs.get('gender')
         self.sleep_time = kwargs.get('sleep_time')
         self.cleanliness = kwargs.get('cleanliness')
+        self.min_price = kwargs.get('min_price')
+        self.max_price = kwargs.get('max_price')
         self.bio = kwargs.get('bio')
+        self.fun_fact = kwargs.get('fun_fact')
         self.email = kwargs.get('email')
         self.phone = kwargs.get('phone')
         self.location_id = kwargs.get('location')
@@ -53,7 +59,10 @@ class User(db.Model):
             "gender": self.gender,
             "sleep_time": self.sleep_time,
             "cleanliness": self.cleanliness,
+            "min_price": self.min_price,
+            "max_price": self.max_price,
             "bio": self.bio,
+            "fun_fact": self.fun_fact,
             "email": self.email,
             "phone": self.phone,
             "location": location.serialize()
@@ -95,9 +104,9 @@ class Match(db.Model):
     __tablename__ = 'match'
     id = db.Column(db.Integer, primary_key=True)
     similarity = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.String, db.ForeignKey('user.netid'))
-    match_id = db.Column(db.String)
-    user = db.relationship('User', backref='matches')
+    user_id = db.Column(db.String)
+    match_id = db.Column(db.String, db.ForeignKey('user.netid'))
+    match = db.relationship('User', backref='matched')
 
     def __init__(self, **kwargs):
         self.similarity = kwargs.get('similarity')
