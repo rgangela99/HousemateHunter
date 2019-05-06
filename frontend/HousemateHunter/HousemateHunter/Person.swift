@@ -9,31 +9,35 @@
 import Foundation
 import UIKit
 
-struct Person: Codable {
+struct Person {
     
     var name: String
-    var profile_pic: String
-    var gender: String
+    var netid: String
     var grad_year: String
-    var bio: String
-    var fun_fact: String
-    var price_max: Int
-    var price_min: Int
+    var age: Int
+    var gender: String
     var sleep_time: String
     var cleanliness: String
-    var phone: String
+    var min_price: Int
+    var max_price: Int
+    var bio: String
+    var fun_fact: String
     var email: String
+    var phone: String
+    var profile_pic: UIImage
     
-    
-    init(name: String, profile_pic: String, gender: String, grad_year: String, bio: String, fun_fact: String, price_max: Int, price_min: Int, sleep_time: String, cleanliness: String, phone: String, email: String){
+
+    init(name: String, netid: String, grad_year: String, age: Int, gender: String, sleep_time: String, cleanliness: String, min_price: Int, max_price: Int, bio: String, fun_fact: String, email: String, phone: String, profile_pic: UIImage){
         self.name = name
+        self.netid = netid
+        self.age = age
         self.profile_pic = profile_pic
         self.gender = gender
         self.grad_year = grad_year
         self.bio = bio
         self.fun_fact = fun_fact
-        self.price_max = price_max
-        self.price_min = price_min
+        self.max_price = max_price
+        self.min_price = min_price
         self.sleep_time = sleep_time
         self.cleanliness = cleanliness
         self.phone = phone
@@ -41,10 +45,10 @@ struct Person: Codable {
     }
 }
 
-struct PersonDataResponse: Codable {
-    var users: [Person]
-}
-
-struct PersonResponse: Codable{
-    var data: PersonDataResponse
-}
+//struct PersonDataResponse: Codable {
+//    var users: [Person]
+//}
+//
+//struct PersonResponse: Codable{
+//    var data: PersonDataResponse
+//}

@@ -35,21 +35,14 @@ class ViewController: UIViewController {
         title = "Housemates"
         view.backgroundColor = .white
         
-        //let tim = Person(theirName: "Tim", theirProfileImage: UIImage(named: "tim.png")!, theirGender: "Male", theirGraduationYear: "2022", theirBio: "Tim's Bio", theirFunFact: "Tim's fun fact", theirPriceMax: 6000, theirPriceMin: 2000, theirSleep: "Before 12am", theirCleanliness: "Very clean", theirPhoneNumber: "123-342-1244", theirEmail: "tim@cornell.com")
-//        let julia = Person(name: "Julia", gender: "Female", graduationYear: "2021" )
-//        let amanda = Person(name: "Amanda", gender: "Female", graduationYear: "2018")
-//        let jake = Person(name: "Jake", gender: "Male", graduationYear: "2017")
-//        let hannah = Person(name: "Hannah", gender: "Female", graduationYear: "2014")
-//        let will = Person(name: "Will", gender: "Male", graduationYear: "2018")
-//        let ben = Person(name: "Ben", gender: "Male", graduationYear: "2019")
-//        let ava = Person(name: "Ava", gender: "Female", graduationYear: "2022")
-//        let arianna = Person(name: "Arianna", gender: "Female", graduationYear: "2023")
+        let tim = Person(name: "Tim Walker", netid: "thw23", grad_year: "2022", age: 19, gender: "Male", sleep_time: "Before 12am", cleanliness: "Very Clean", min_price: 2000, max_price: 6000, bio: "Hi I'm Tim", fun_fact: "I am studying computer science", email: "thw23@cornell.edu", phone: "123-456-7932", profile_pic: UIImage(named: "tim.png")!)
+        let julia = Person(name: "Julia White", netid: "jhw13", grad_year: "2021", age: 20, gender: "Female", sleep_time: "Around 12am", cleanliness: "Casual", min_price: 3000, max_price: 4000, bio: "Hi I'm Julia", fun_fact: "I like to play soccer", email: "jhw13@cornell.edu", phone: "432-467-1354", profile_pic: UIImage(named: "julia.png")!)
+        let amanda = Person(name: "Amanda Chen", netid: "agc34", grad_year: "2022", age: 18, gender: "Female", sleep_time: "After 12am", cleanliness: "Very clean", min_price: 1000, max_price: 3000, bio: "Hi I'm Amanda", fun_fact: "I love music", email: "agc34@cornell.edu", phone: "232-442-7643", profile_pic: UIImage(named: "amanda.png")!)
         
-        //personArray = [tim, julia, amanda, jake, hannah, will, ben, ava, arianna]
-        //personArray = [tim]
-        //personArray.sort{$0.theirName < $1.theirName}
+        personArray = [tim, julia, amanda]
+        personArray.sort{$0.name < $1.name}
         
-        //filteredPersonArray = personArray
+        filteredPersonArray = personArray
         
         
         let layout = UICollectionViewFlowLayout()
@@ -97,7 +90,7 @@ class ViewController: UIViewController {
     
     
         setupConstraints()
-        getPeople()
+        //getPeople()
     }
     
     func setupConstraints() {
@@ -134,20 +127,20 @@ class ViewController: UIViewController {
         
     }
     
-    func getPeople(){
-        NetworkManager.getPeople { filteredPersonArray in
-            self.filteredPersonArray = filteredPersonArray
-            DispatchQueue.main.async {
-                self.peopleCollectionView.reloadData()
-            }
-        }
-    }
+//    func getPeople(){
+//        NetworkManager.getPeople { filteredPersonArray in
+//            self.filteredPersonArray = filteredPersonArray
+//            DispatchQueue.main.async {
+//                self.peopleCollectionView.reloadData()
+//            }
+//        }
+//    }
     
     
     @objc func pushProfileViewController() {
         if let indexPath = self.peopleCollectionView.indexPathsForSelectedItems?.first{
             let person = personArray[indexPath.row]
-            let profileViewController = ProfileViewController(placeHolderTheirUserName: person.name, placeHolderTheirProfileImageData: person.profile_pic, placeHolderTheirGender: person.gender, placeHolderTheirBio: person.bio, placeHolderTheirFunFact: person.fun_fact, placeHolderTheirPriceMin: person.price_min, placeHolderTheirPriceMax: person.price_max, placeHolderTheirSleep: person.sleep_time, placeHolderTheirCleanliness: person.cleanliness, placeHolderTheirPhoneNumber: person.phone, placeHolderTheirEmail: person.email)
+            let profileViewController = ProfileViewController(placeHolderTheirUserName: person.name, placeHolderTheirProfileImage: person.profile_pic, placeHolderTheirGender: person.gender, placeHolderTheirBio: person.bio, placeHolderTheirFunFact: person.fun_fact, placeHolderTheirPriceMin: person.min_price, placeHolderTheirPriceMax: person.max_price, placeHolderTheirSleep: person.sleep_time, placeHolderTheirCleanliness: person.cleanliness, placeHolderTheirPhoneNumber: person.phone, placeHolderTheirEmail: person.email)
             navigationController?.pushViewController(profileViewController, animated: true)
         }
         
