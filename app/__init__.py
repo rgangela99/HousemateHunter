@@ -62,9 +62,10 @@ def post_user():
         location=location.serialize()['id'],
         profile_pic=body.get('profile_pic')
     )
+    db.session.add(user)
+    db.session.commit()
     update_nearby(user)
     update_matches(user)
-    db.session.add(user)
     db.session.commit()
     res = {"success": True, "data": user.serialize()}
     return json.dumps(res), 201
