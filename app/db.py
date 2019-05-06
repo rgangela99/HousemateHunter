@@ -9,7 +9,7 @@ nearby_association_table = db.Table(
     db.Model.metadata,
     db.Column('location_id', db.Integer, db.ForeignKey('location.id')),
     db.Column('user_id', db.String, db.ForeignKey(
-        'user.netid', ondelete="cascade"))
+        'user.netid'))
 )
 
 
@@ -108,8 +108,8 @@ class Match(db.Model):
     similarity = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.String)
     match_id = db.Column(db.String, db.ForeignKey(
-        'user.netid', ondelete="cascade"))
-    match = db.relationship('User', backref='matched', cascade='delete')
+        'user.netid'))
+    match = db.relationship('User', backref='matched')
 
     def __init__(self, **kwargs):
         self.similarity = kwargs.get('similarity')
