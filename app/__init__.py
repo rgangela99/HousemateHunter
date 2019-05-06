@@ -3,7 +3,7 @@ import os
 from flask import Flask, request
 from collections import defaultdict
 from .db import db, User, Location, Match
-from .dictionaries import state_abbrev, sleep_time_dict, cleanliness_dict
+from .dictionaries import state_abbrev, sleep_time_dict, cleanliness_dict, gender_dict
 import geocoder
 from math import radians, sin, cos, sqrt, asin
 
@@ -50,7 +50,7 @@ def post_user():
         netid=netid,
         grad_year=int(body.get('grad_year')),
         age=body.get('age'),
-        gender=body.get('gender'),
+        gender=gender_dict[body.get('gender')],
         sleep_time=sleep_time_dict[body.get('sleep_time')],
         cleanliness=cleanliness_dict[body.get('cleanliness')],
         min_price=body.get('min_price'),

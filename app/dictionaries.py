@@ -67,3 +67,10 @@ cleanliness_dict = {
     "very clean": 0,
     "casual": 1
 }
+
+gender_dict = {
+    0: "m",
+    1: "f",
+    "m": 0,
+    "f": 1
+}
