@@ -48,7 +48,7 @@ def post_user():
     user = User(
         name=body.get('name'),
         netid=netid,
-        grad_year=body.get('grad_year'),
+        grad_year=int(body.get('grad_year')),
         age=body.get('age'),
         gender=body.get('gender'),
         sleep_time=sleep_time_dict[body.get('sleep_time')],
