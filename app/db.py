@@ -81,7 +81,8 @@ class Location(db.Model):
     address = db.Column(db.String)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
-    nearby_users = db.relationship('User', secondary=nearby_association_table)
+    nearby_users = db.relationship(
+        'User', secondary=nearby_association_table, cascade='delete')
 
     def __init__(self, **kwargs):
         self.city = kwargs.get('city')
@@ -108,7 +109,7 @@ class Match(db.Model):
     user_id = db.Column(db.String)
     match_id = db.Column(db.String, db.ForeignKey(
         'user.netid'))
-    match = db.relationship('User', backref='matched')
+    match = db.relationship('User', backref='matched', cascade='delete')
 
     def __init__(self, **kwargs):
         self.similarity = kwargs.get('similarity')

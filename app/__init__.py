@@ -80,12 +80,29 @@ def get_user(netid):
     return json.dumps({"success": True, "data": data}), 200
 
 
-# @app.route('/api/user/<string:netid>/<string:field>/', methods=['GET'])
-# def get_user_info(netid, field):
-#     user = User.query.filter_by(netid=netid).first()
-#     try:
-#         eval("data = user.{}")
-#         return json.dumps({"success": True, "data": data})
+@app.route('/api/user/<string:netid>/<string:field>/', methods=['GET'])
+def get_user_info(netid, field):
+    user = User.query.filter_by(netid=netid).first()
+    if not user:
+        return json.dumps({"success": False, "error": "User not found"}), 404
+    try:
+        eval("data = user.{}")
+        return json.dumps({"success": True, "data": data}), 200
+    except:
+        return json.dumps({"success": False, "error": "Field not found"}), 404
+
+
+@app.route('/api/user/<string:netid>/<string:field>/', methods=['POST'])
+def update_user_info(netid, field):
+    user = User.query.filter_by(netid=netid).first()
+    if not user:
+        return json.dumps({"success": False, "error": "User not found"}), 404
+    try:
+        eval("user.{} = body.get('value')")
+        db.session.commit()
+        return json.dumps({"success": True, "data": data})
+    except:
+        return json.dumps({"success": False, "error": "Field not found"}), 404
 
 
 @app.route('/api/user/<string:netid>/', methods=['DELETE'])
