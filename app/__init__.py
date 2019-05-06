@@ -112,7 +112,8 @@ def get_nearby_users(netid):
 @app.route('/api/matches/<string:netid>/', methods=['GET'])
 def get_matches(netid):
     matches = Match.query.filter_by(user_id=netid)
-    data = {"users": [m.match.serialize() for m in matches]}
+    data = {"users": [{"similarity": m.similarity,
+                       "user": m.match.serialize()} for m in matches]}
     return json.dumps({"success": True, "data": data}), 200
 
 
