@@ -184,7 +184,8 @@ def update_nearby(user):
 
 
 def update_matches(user):
-    users = user.location.nearby_users
+    location = Location.query.filter_by(id=user.location_id).first()
+    users = location.nearby_users
     sims = []
     for other_user in users:
         if other_user.netid == user.netid:
