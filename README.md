@@ -7,9 +7,11 @@ Backend API: https://paper.dropbox.com/doc/Housemate-Hunter-Backend-API--AcgyKyT
 
 ### Screenshots:
 
-<img src="images/1.jpg" width="200" alt="Screenshot 1"/>
-<img src="images/2.jpg" width="200" alt="Screenshot 2"/>
-<img src="images/3.jpg" width="200" alt="Screenshot 3"/>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-column-gap:5px;">
+  <img src="images/1.jpg" width="200" alt="Screenshot 1"/>
+  <img src="images/2.jpg" width="200" alt="Screenshot 2"/>
+  <img src="images/3.jpg" width="200" alt="Screenshot 3"/>
+</div>
 
 ### Description:
 
